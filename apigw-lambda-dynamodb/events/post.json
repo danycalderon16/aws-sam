@@ -1,0 +1,4 @@
+{
+  "httpMethod": "POST",
+  "body": "{\"note\": \"nota de prueba\"}"
+}

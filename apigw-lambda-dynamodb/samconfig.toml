@@ -28,3 +28,12 @@ warm_containers = "EAGER"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
+
+[dev.deploy.parameters]
+stack_name = "apigw-lambda-dynamodb"
+resolve_s3 = true
+s3_prefix = "apigw-lambda-dynamodb"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
