@@ -22,6 +22,15 @@ Resources:
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
+  NotesApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'http://localhost:8081'"
+
   ItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -37,10 +46,18 @@ Resources:
         GetItems:
           Type: Api
           Properties:
+            RestApiId: !Ref NotesApi
             Path: /notes
             Method: GET
         CreateItem:
           Type: Api
           Properties:
+            RestApiId: !Ref NotesApi
             Path: /notes
             Method: POST
+        DeleteItem:
+          Type: Api
+          Properties:
+            RestApiId: !Ref NotesApi
+            Path: /notes/{id}
+            Method: DELETE

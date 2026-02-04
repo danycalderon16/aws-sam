@@ -24,8 +24,13 @@ def lambda_handler(event, context):
             TableName=TABLE_NAME
         )
         items = dynamo_response.get("Items", [])
+        notes = [{"id": item.get("id").get("S"), "note": item.get("note").get("S")} for item in items]
 
-        return response(200, {"notes": items})
+        return response(200, notes)
+    
+    if http_method == "DELETE":
+        print(event.get("pathParameters").get("id"))
+        return response(204, {"message": "Note deleted successfully"})
 
     return response(405, {"message": "Method not allowed"})
 
@@ -52,8 +57,10 @@ def create_note(note: str):
 def response(status_code, body):
     return {
         "statusCode": status_code,
-        "headers": {
-            "Content-Type": "application/json"
+          "headers": {
+            "Access-Control-Allow-Origin": "*", 
+            "Access-Control-Allow-Headers": "Content-Type,Authorization",
+            "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
         },
         "body": json.dumps(body)
     }
